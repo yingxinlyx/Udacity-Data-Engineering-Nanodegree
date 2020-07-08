@@ -15,7 +15,7 @@ This is the first project of the Data Engineering Nanodegree from Udacity.
 
 ## 3. ETL Pipeline
 ### 1) Create Tables
-Prepared `DROP` and `CREATE` queries in `sql_queries.py`, then ran `create_tables.py` to batch create all needed tables. 
+    Prepared `DROP` and `CREATE` queries in `sql_queries.py`, then ran `create_tables.py` to batch create all needed tables. 
 ### 2) Build ETL pipeline
     There were 2 parts building the pipeline: 
     The first part was to extract information from the `song` dataset and store information in `artists` and `songs`. 
