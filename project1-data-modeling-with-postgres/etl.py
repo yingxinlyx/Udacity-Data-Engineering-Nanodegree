@@ -6,6 +6,8 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """extract information from song dataset and store in tables artists and songs"""
+    
     # open song file
     df = pd.read_json(filepath, lines=True)
     
@@ -19,6 +21,8 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """extract information from log dataset and store in tables users time and songplays"""
+    
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -61,11 +65,13 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = (index, pd.to_datetime(row.ts, unit='ms'), int(row.userId), row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
+        songplay_data = (pd.to_datetime(row.ts, unit='ms'), int(row.userId), row.level, songid, artistid, row.sessionId, row.location, row.userAgent)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
+    """read files from directory"""
+    
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -85,6 +91,8 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """connect to database and implement ETL process"""
+    
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
