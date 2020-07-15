@@ -40,14 +40,14 @@ def process_song_data(spark, input_data, output_data):
     # songs table
     songs_table = df.select(['artist_id', 'duration', 'title', 'year'])\
                     .dropDuplicates().withColumn('song_id', monotonically_increasing_id())
-    songs_table.write.partitionBy("year", "artist_id").parquet(output_data + 'songs.parquet', mode="overwrite")
+    songs_table.write.partitionBy('year', 'artist_id').parquet(output_data + 'songs.parquet', mode='overwrite')
     print('songs table has been created successfully!')
 
     # artists table 
-    artists_fields = ["artist_id", "artist_name as name", "artist_location as location", "artist_latitude as latitude", \
-                      "artist_longitude as longitude"]
+    artists_fields = ['artist_id', 'artist_name as name', 'artist_location as location', 'artist_latitude as latitude', \
+                      'artist_longitude as longitude']
     artists_table = df.selectExpr(artists_fields).dropDuplicates()
-    artists_table.write.parquet(output_data + 'artists.parquet', mode="overwrite")
+    artists_table.write.parquet(output_data + 'artists.parquet', mode='overwrite')
     print('artists table has been created successfully!')
 
 
@@ -65,10 +65,10 @@ def process_log_data(spark, input_data, output_data):
     print('log_data has been read successfully!')
 
     # users table    
-    users_fields = ["userId as user_id", "firstName as first_name", "lastName as last_name", "gender", "level"]
+    users_fields = ['userId as user_id', 'firstName as first_name', 'lastName as last_name', 'gender', 'level']
     users_table = df.selectExpr(users_fields).dropDuplicates()
     
-    users_table.write.parquet(output_data + 'users.parquet', mode="overwrite")
+    users_table.write.parquet(output_data + 'users.parquet', mode='overwrite')
     print('users table has been created successfully!')
 
     # time table
@@ -78,7 +78,7 @@ def process_log_data(spark, input_data, output_data):
     
     df = df.withColumn('ts', get_timestamp('ts'))
     
-    df.createOrReplaceTempView("ts_table")
+    df.createOrReplaceTempView('ts_table')
     time_table = spark.sql('''
         SELECT DISTINCT ts       AS start_time,
                hour(ts)          AS hour,
@@ -90,7 +90,7 @@ def process_log_data(spark, input_data, output_data):
         FROM ts_table
     ''')
     
-    time_table.write.partitionBy("year", "month").parquet(output_data + 'time.parquet', mode="overwrite")
+    time_table.write.partitionBy('year', 'month').parquet(output_data + 'time.parquet', mode='overwrite')
     print('time table has been created successfully!')
 
     # songplays table
@@ -116,7 +116,7 @@ def process_log_data(spark, input_data, output_data):
     ''')
     songplays_table = songplays_table.withColumn('songplays_id', monotonically_increasing_id())
 
-    songplays_table.write.partitionBy('year', 'month').parquet(output_data + 'songplays.parquet', mode="overwrite")
+    songplays_table.write.partitionBy('year', 'month').parquet(output_data + 'songplays.parquet', mode='overwrite')
     print('songplays table has been created successfully!')
 
 
