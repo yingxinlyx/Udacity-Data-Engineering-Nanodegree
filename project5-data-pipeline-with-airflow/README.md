@@ -5,6 +5,7 @@ This is the fifth project of the Data Engineering Nanodegree from Udacity. In th
 A music streaming company, Sparkify, wants to create high grade data pipelines that are dynamic and built from reusable tasks, can be monitored, allow easy backfills and data quality check. 
 
 ## 2. Configuring DAG
+![](https://video.udacity-data.com/topher/2019/January/5c48ba31_example-dag/example-dag.png)
 
 ## 3. Building Operators
 ### 1) Stage Operator
